@@ -31,9 +31,9 @@ class Bot(commands.Bot):
             emotes_str = ''
         if emotes_str.strip() == '':
             return
-        emotes = [emote.split(":")[0] for emote in emotes_str.replace('/', ',').split(',')]
-        # print(emotes_str)
-        # print(emotes)
+        emotes = [emote.split(":")[0] for emote in emotes_str.split('/')]
+        print(emotes_str)
+        print(emotes)
         for emote in emotes:
             try:
                 if safegif.process_gif(f'https://static-cdn.jtvnw.net/emoticons/v2/{emote}/default/dark/3.0'):
@@ -57,6 +57,6 @@ class Bot(commands.Bot):
                     break
                 else:
                     print(f'https://static-cdn.jtvnw.net/emoticons/v2/{emote}/default/dark/3.0 - False')
-            except ValueError:
+            except Exception:
                 print(f'https://static-cdn.jtvnw.net/emoticons/v2/{emote}/default/dark/3.0 - ValueError')
                 traceback.print_exc()
