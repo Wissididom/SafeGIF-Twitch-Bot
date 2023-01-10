@@ -3,7 +3,6 @@ from twitchio.ext import commands
 from twitchio import Message
 import api as safegif
 import requests
-import os
 
 
 def delete_chat_message(client_id: str, access_token: str, broadcaster_id: str, moderator_id: str, message_id: str):
@@ -24,8 +23,9 @@ def send_whisper(client_id: str, access_token: str, from_user_id: str, to_user_i
 
 
 class Bot(commands.Bot):
-    def __init__(self, access_token: str):
-        super().__init__(token=access_token, prefix='safegifbot', initial_channels=[os.getenv('INITIAL_CHANNEL')])
+    def __init__(self, client_id: str, access_token: str, initial_channel: str):
+        super().__init__(token=access_token, prefix='safegifbot', initial_channels=[initial_channel])
+        self.client_id = client_id
         self.access_token = access_token
 
     async def event_ready(self):
@@ -50,7 +50,7 @@ class Bot(commands.Bot):
                 })
                 if response.status_code == 200:
                     response = delete_chat_message(
-                        client_id=os.getenv('TWITCH_CLIENT_ID'),
+                        client_id=self.client_id,
                         access_token=self.access_token,
                         broadcaster_id=(await message.channel.user()).id,
                         moderator_id=self.user_id,
@@ -59,7 +59,7 @@ class Bot(commands.Bot):
                     if response.status_code == 204:
                         print('Successfully deleted message')
                         response = send_whisper(
-                            client_id=os.getenv('TWITCH_CLIENT_ID'),
+                            client_id=self.client_id,
                             access_token=self.access_token,
                             from_user_id=self.user_id,
                             to_user_id=(await message.author.user()).id,
