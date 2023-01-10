@@ -1,5 +1,4 @@
 import sys
-import traceback
 from twitchio.ext import commands
 from twitchio import Message
 import api as safegif
@@ -9,10 +8,19 @@ import os
 
 def delete_chat_message(client_id: str, access_token: str, broadcaster_id: str, moderator_id: str, message_id: str):
     return requests.delete(
-        f'https://api.twitch.tv/helix/moderation/chat?broadcaster_id={broadcaster_id}&moderator_id={moderator_id}&message_id={message_id}', headers={
+        f'https://api.twitch.tv/helix/moderation/chat?broadcaster_id={broadcaster_id}&moderator_id={moderator_id}&message_id={message_id}',
+        headers={
             'Client-ID': client_id,
             'Authorization': f'Bearer {access_token}'
         })
+
+
+def send_whisper(client_id: str, access_token: str, from_user_id: str, to_user_id: str, message: str):
+    return requests.post(f'https://api.twitch.tv/helix/whispers?from_user_id={from_user_id}&to_user_id={to_user_id}',
+                         headers={
+                             'Client-ID': client_id,
+                             'Authorization': f'Bearer {access_token}'
+                         }, json={'message': message})
 
 
 class Bot(commands.Bot):
@@ -35,28 +43,36 @@ class Bot(commands.Bot):
         print(emotes_str)
         print(emotes)
         for emote in emotes:
-            try:
-                if safegif.process_gif(f'https://static-cdn.jtvnw.net/emoticons/v2/{emote}/default/dark/3.0'):
-                    print(f'https://static-cdn.jtvnw.net/emoticons/v2/{emote}/default/dark/3.0 - True')
-                    response = requests.get('https://id.twitch.tv/oauth2/validate', headers={
-                        'Authorization': f'OAuth {self.access_token}'
-                    })
-                    if response.status_code == 200:
-                        response = delete_chat_message(
+            if safegif.process_gif(f'https://static-cdn.jtvnw.net/emoticons/v2/{emote}/default/dark/3.0'):
+                print(f'https://static-cdn.jtvnw.net/emoticons/v2/{emote}/default/dark/3.0 - True')
+                response = requests.get('https://id.twitch.tv/oauth2/validate', headers={
+                    'Authorization': f'OAuth {self.access_token}'
+                })
+                if response.status_code == 200:
+                    response = delete_chat_message(
+                        client_id=os.getenv('TWITCH_CLIENT_ID'),
+                        access_token=self.access_token,
+                        broadcaster_id=(await message.channel.user()).id,
+                        moderator_id=self.user_id,
+                        message_id=message.id
+                    )
+                    if response.status_code == 204:
+                        print('Successfully deleted message')
+                        response = send_whisper(
                             client_id=os.getenv('TWITCH_CLIENT_ID'),
                             access_token=self.access_token,
-                            broadcaster_id=(await message.channel.user()).id,
-                            moderator_id=self.user_id,
-                            message_id=message.tags.get('id')
+                            from_user_id=self.user_id,
+                            to_user_id=(await message.author.user()).id,
+                            message='Your message included an emote that could be triggering epilepsy so it was deleted'
                         )
                         if response.status_code == 204:
-                            print('Successfully deleted message')
-                    else:
-                        print('Failed to delete the message. Exiting...')
-                        sys.exit()
-                    break
+                            print(f'Successfully sent or silently dropped whisper message to {message.author.name}')
+                        else:
+                            print(f'Error sending Whisper: {response.status_code}: {response.text}')
+                        break
                 else:
-                    print(f'https://static-cdn.jtvnw.net/emoticons/v2/{emote}/default/dark/3.0 - False')
-            except Exception:
-                print(f'https://static-cdn.jtvnw.net/emoticons/v2/{emote}/default/dark/3.0 - ValueError')
-                traceback.print_exc()
+                    print('Failed to delete the message. Exiting...')
+                    sys.exit()
+                break
+            else:
+                print(f'https://static-cdn.jtvnw.net/emoticons/v2/{emote}/default/dark/3.0 - False')
