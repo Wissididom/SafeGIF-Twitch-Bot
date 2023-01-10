@@ -13,6 +13,13 @@ def delete_chat_message(client_id: str, access_token: str, broadcaster_id: str, 
             'Client-ID': client_id,
             'Authorization': f'Bearer {access_token}'
         })
+def send_whisper(client_id: str, accesss_token: str, from_user_id: str, to_user_id: str, message: str):
+    return requests.post(f'https://api.twitch.tv/helix/whispers?from_user_id={from_user_id}&to_user_id={to_user_id}', headers={
+        'Client-ID': client_id,
+        'Authorization': f'Bearer {access_token}'
+    }, json={
+        'message': message
+    })
 
 
 class Bot(commands.Bot):
@@ -47,10 +54,20 @@ class Bot(commands.Bot):
                             access_token=self.access_token,
                             broadcaster_id=(await message.channel.user()).id,
                             moderator_id=self.user_id,
-                            message_id=message.tags.get('id')
+                            message_id=message.id
                         )
                         if response.status_code == 204:
                             print('Successfully deleted message')
+                            response = send_whisper(
+                                client_id=os.getenv('TWITCH_CLIENT_ID')
+                                access_token=self.access_token,
+                                from_user_id=self.user_id,
+                                to_user_id=(await message.author.user()).id
+                            )
+                            if (response.status_code == 204):
+                                print(f'Successfully sent or silently dropped whisper message to {message.author.name}')
+                            else:
+                                print(f'Error sending Whisper: {response.status_code}: {response.text}')
                     else:
                         print('Failed to delete the message. Exiting...')
                         sys.exit()
