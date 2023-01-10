@@ -69,6 +69,7 @@ class Bot(commands.Bot):
                             print(f'Successfully sent or silently dropped whisper message to {message.author.name}')
                         else:
                             print(f'Error sending Whisper: {response.status_code}: {response.text}')
+                        break
                 else:
                     print('Failed to delete the message. Exiting...')
                     sys.exit()
