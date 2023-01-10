@@ -59,7 +59,7 @@ class Bot(commands.Bot):
                         if response.status_code == 204:
                             print('Successfully deleted message')
                             response = send_whisper(
-                                client_id=os.getenv('TWITCH_CLIENT_ID')
+                                client_id=os.getenv('TWITCH_CLIENT_ID'),
                                 access_token=self.access_token,
                                 from_user_id=self.user_id,
                                 to_user_id=(await message.author.user()).id
