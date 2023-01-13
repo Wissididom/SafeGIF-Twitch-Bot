@@ -23,10 +23,12 @@ def send_whisper(client_id: str, access_token: str, from_user_id: str, to_user_i
 
 
 class Bot(commands.Bot):
-    def __init__(self, client_id: str, access_token: str, initial_channels: list[str]):
+    def __init__(self, client_id: str, access_token: str, initial_channels: list[str], whispers_on_deletion: bool, whisper_text: str = None):
         super().__init__(token=access_token, prefix='safegifbot', initial_channels=initial_channels)
         self.client_id = client_id
         self.access_token = access_token
+        self.whispers_on_deletion = whispers_on_deletion
+        self.whisper_text = whisper_text
 
     async def event_ready(self):
         # We are logged in and ready to chat and use commands...
@@ -58,18 +60,19 @@ class Bot(commands.Bot):
                     )
                     if response.status_code == 204:
                         print('Successfully deleted message')
-                        response = send_whisper(
-                            client_id=self.client_id,
-                            access_token=self.access_token,
-                            from_user_id=self.user_id,
-                            to_user_id=(await message.author.user()).id,
-                            message='Your message included an emote that could be triggering epilepsy so it was deleted'
-                        )
-                        if response.status_code == 204:
-                            print(f'Successfully sent or silently dropped whisper message to {message.author.name}')
-                        else:
-                            print(f'Error sending Whisper: {response.status_code}: {response.text}')
-                        break
+                        if self.whisper_text is not None and self.whispers_on_deletion:
+                            response = send_whisper(
+                                client_id=self.client_id,
+                                access_token=self.access_token,
+                                from_user_id=self.user_id,
+                                to_user_id=(await message.author.user()).id,
+                                message=self.whisper_text
+                            )
+                            if response.status_code == 204:
+                                print(f'Successfully sent or silently dropped whisper message to {message.author.name}')
+                            else:
+                                print(f'Error sending Whisper: {response.status_code}: {response.text}')
+                            break
                 else:
                     print('Failed to delete the message. Exiting...')
                     sys.exit()
