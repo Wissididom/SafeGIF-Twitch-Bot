@@ -23,8 +23,8 @@ def send_whisper(client_id: str, access_token: str, from_user_id: str, to_user_i
 
 
 class Bot(commands.Bot):
-    def __init__(self, client_id: str, access_token: str, initial_channel: str):
-        super().__init__(token=access_token, prefix='safegifbot', initial_channels=[initial_channel])
+    def __init__(self, client_id: str, access_token: str, initial_channels: list[str]):
+        super().__init__(token=access_token, prefix='safegifbot', initial_channels=initial_channels)
         self.client_id = client_id
         self.access_token = access_token
 
