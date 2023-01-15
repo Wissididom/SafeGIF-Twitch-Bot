@@ -1,8 +1,10 @@
 import sys
-from twitchio.ext import commands
-from twitchio import Message
-import api as safegif
+
 import requests
+from twitchio import Message
+from twitchio.ext import commands
+
+import api as safegif
 
 
 def delete_chat_message(client_id: str, access_token: str, broadcaster_id: str, moderator_id: str, message_id: str):
@@ -23,7 +25,8 @@ def send_whisper(client_id: str, access_token: str, from_user_id: str, to_user_i
 
 
 class Bot(commands.Bot):
-    def __init__(self, client_id: str, access_token: str, initial_channels: list[str], whispers_on_deletion: bool, whisper_text: str = None):
+    def __init__(self, client_id: str, access_token: str, initial_channels: list[str], whispers_on_deletion: bool,
+                 whisper_text: str = None):
         super().__init__(token=access_token, prefix='safegifbot', initial_channels=initial_channels)
         self.client_id = client_id
         self.access_token = access_token
