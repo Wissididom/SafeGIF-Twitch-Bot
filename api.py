@@ -1,15 +1,17 @@
+import cv2
 import imageio.v3 as iio
 import numpy
-import cv2
+
+# These values are not backed by resources just random guesses (trial and error)
 
 # Defines the minimum amount of average luminosity change to the previous frame
 # for a frame to be considered a flash.
-FLASH_THRESHOLD = 50
+FLASH_THRESHOLD = 20
 
 # The minimum amount of flashing frames for a gif to be rejected.
-# This is a percentage, so 0.25 means at least 25% of frames must be flashes for
+# This is a percentage, so 0.15 means at least 15% of frames must be flashes for
 # the gif to be rejected.
-FLASHING_FRAME_COUNT_THRESHOLD = 0.25
+FLASHING_FRAME_COUNT_THRESHOLD = 0.15
 
 
 def process_gif(gif_path):
@@ -21,10 +23,12 @@ def process_gif(gif_path):
         prev_luminances = cv2.cvtColor(prev_bgr, cv2.COLOR_BGR2GRAY)
 
         diff = cv2.subtract(luminances, prev_luminances)
-        return numpy.average(diff)
+        return diff
 
     gif = iio.imread(gif_path)
     total_frames = len(gif)
+    if total_frames < 2:
+        return False
 
     num_flashes = 0
     prev_frame = None
@@ -34,8 +38,9 @@ def process_gif(gif_path):
             continue
 
         luminance_diff = get_luminance_diff(frame, prev_frame)
+        average_diff = numpy.average(luminance_diff)
 
-        if luminance_diff >= FLASH_THRESHOLD:
+        if average_diff >= FLASH_THRESHOLD:
             num_flashes += 1
 
         prev_frame = frame
