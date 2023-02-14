@@ -8,7 +8,8 @@ def main():
         ("https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_a770d1805b514b97956c9695508e0d44/default/dark/3.0", True),
         ("https://webaim.org/articles/seizure/media/flicker.gif", True),
         ("https://webaim.org/articles/seizure/media/illusion.gif", False),
-        ("https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_502bf8fd256b44348d9a5b9c546bee67/default/dark/3.0", True)
+        ("https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_502bf8fd256b44348d9a5b9c546bee67/default/dark/3.0", True),
+        ("https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_a0f0d42f9001456281d9fbc37a6081b2/default/dark/3.0", False)
     ]
     for i in range(len(images)):
         expected = images[i][1]
@@ -35,7 +36,8 @@ def test_epilepsy_triggering():
 def test_epilepsy_safe():
     images = [
         "test_images/normal.gif",
-        "https://webaim.org/articles/seizure/media/illusion.gif"
+        "https://webaim.org/articles/seizure/media/illusion.gif",
+        "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_a0f0d42f9001456281d9fbc37a6081b2/default/dark/3.0"
     ]
     for i in range(len(images)):
         assert not safegif.process_gif(images[i])
