@@ -1,5 +1,5 @@
 ---
-name: Test
+name: Build + Test
 
 on:
   push:
@@ -8,6 +8,43 @@ on:
   pull_request:
 
 jobs:
+  build:
+    name: Build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+      fail-fast: false
+    steps:
+      - name: Update apt database
+        run: apt update
+
+      - name: Install python and dependencies for python packages
+        run: apt-get install git python3 python3-pip python3-venv libssl-dev libgl1 libglib2.0-0 -y
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Cache virtual environment
+        id: cache-venv
+        uses: actions/cache@v3
+        with:
+          path: ./venv
+          key: v2-requirements-prod@${{ hashFiles('requirements.txt') }}
+      - name: Install dependencies
+        if: steps.cache-venv.outputs.cache-hit != 'true'
+        run: ./scripts/venvinstall.sh
+
+      - name: Build
+        run: |
+          ./venv/bin/pyinstaller main.py
+          zip SafeGIF-Twitch-Bot.zip .
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: SafeGIF-Twitch-Bot-${{ matrix.os }}.zip
+          path: SafeGIF-Twitch-Bot.zip
   test:
     name: pytest
     runs-on: ubuntu-latest
