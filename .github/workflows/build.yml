@@ -1,5 +1,5 @@
 ---
-name: Python 4HEad
+name: pytest Test
 
 on:
   push:
@@ -34,39 +34,3 @@ jobs:
 
       - name: Run tests
         run: ./venv/bin/pytest
-
-  check_format:
-    runs-on: ubuntu-latest
-    container: debian:bullseye
-
-    steps:
-      - name: Update apt database
-        run: apt-get update
-
-      - name: Install python and dependencies for python packages
-        run: apt-get install git python3 python3-pip python3-venv libssl-dev libgl1 libglib2.0-0 -y
-
-      - uses: actions/checkout@v3
-
-      - name: Cache virtual environment
-        id: cache-venv
-        uses: actions/cache@v3
-        with:
-          path: ./venv
-          key: v2-requirements-prod@${{ hashFiles('requirements.txt') }}-dev@${{ hashFiles('requirements-dev.txt') }}
-
-      - name: Install dependencies
-        if: steps.cache-venv.outputs.cache-hit != 'true'
-        run: ./scripts/venvinstall.sh --dev
-
-      - name: Install curl
-        run: apt-get install curl -y
-
-      - name: Install apt repository for Node.js 12
-        run: curl -sL https://deb.nodesource.com/setup_12.x | bash -
-
-      - name: Install Node.js 12
-        run: apt-get install nodejs -y
-
-      - name: Check code style
-        run: . venv/bin/activate && ./scripts/reformat.sh --check
