@@ -28,7 +28,7 @@ jobs:
 
       - name: Install dependencies (Ubuntu)
         if: steps.cache-venv.outputs.cache-hit != 'true' && startsWith(matrix.os, 'ubuntu')
-        run: ./scripts/venvinstall.sh
+        run: ./scripts/venvinstall.sh --dev
 
       - name: Build (Ubuntu)
         run: |
