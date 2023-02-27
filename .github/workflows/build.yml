@@ -27,17 +27,22 @@ jobs:
           path: ./venv
           key: v2-requirements-prod@${{ hashFiles('requirements.txt') }}
 
-      - name: Install dependencies (Ubuntu)
+      - name: Prepare Python (Ubuntu)
         if: steps.cache-venv.outputs.cache-hit != 'true' && startsWith(matrix.os, 'ubuntu')
         run: |
+          python3 -m venv venv
           source venv/bin/activate
+          pip3 install pip --upgrade
+          pip3 install wheel
           pip3 install -r requirements.txt
           pip3 install -r requirements-dev.txt
 
       - name: Build (Ubuntu)
         run: |
-          ./venv/bin/pyinstaller main.py
-          zip -r SafeGIF-Twitch-Bot.zip dist/main
+          pyinstaller main.py
+          cd dist/main
+          zip -r ../../SafeGIF-Twitch-Bot.zip .
+          cd ../..
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3.1.2
@@ -61,7 +66,13 @@ jobs:
 
       - name: Install dependencies
         if: steps.cache-venv.outputs.cache-hit != 'true'
-        run: ./scripts/venvinstall.sh --dev
+        run: |
+          python3 -m venv venv
+          source venv/bin/activate
+          pip3 install pip --upgrade
+          pip3 install wheel
+          pip3 install -r requirements.txt
+          pip3 install -r requirements-dev.txt
 
       - name: Run tests
         run: ./venv/bin/pytest
