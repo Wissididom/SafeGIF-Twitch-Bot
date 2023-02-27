@@ -39,6 +39,7 @@ jobs:
 
       - name: Build (Ubuntu)
         run: |
+          source venv/bin/activate
           pyinstaller main.py
           cd dist/main
           zip -r ../../SafeGIF-Twitch-Bot.zip .
