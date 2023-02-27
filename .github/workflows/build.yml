@@ -33,7 +33,7 @@ jobs:
       - name: Build (Ubuntu)
         run: |
           ./venv/bin/pyinstaller main.py
-          zip SafeGIF-Twitch-Bot.zip .
+          zip -r SafeGIF-Twitch-Bot.zip .
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3.1.2
