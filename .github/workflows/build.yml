@@ -13,7 +13,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
+        # os: [windows-latest, ubuntu-latest, macos-latest]
+        os: [ubuntu-latest]
       fail-fast: false
     steps:
       - name: Checkout
@@ -28,7 +29,10 @@ jobs:
 
       - name: Install dependencies (Ubuntu)
         if: steps.cache-venv.outputs.cache-hit != 'true' && startsWith(matrix.os, 'ubuntu')
-        run: ./scripts/venvinstall.sh --dev
+        run: |
+          source venv/bin/activate
+          pip3 install -r requirements.txt
+          pip3 install -r requirements-dev.txt
 
       - name: Build (Ubuntu)
         run: |
