@@ -16,15 +16,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Cache virtual environment
-        id: cache-venv
-        uses: actions/cache@v3
-        with:
-          path: ./venv
-          key: v2-requirements-prod@${{ hashFiles('requirements.txt') }}
-
-      - name: Install dependencies
-        if: steps.cache-venv.outputs.cache-hit != 'true'
+      - name: Prepare Python
         run: |
           python3 -m venv venv
           source venv/bin/activate
