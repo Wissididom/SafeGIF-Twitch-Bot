@@ -35,7 +35,7 @@ jobs:
           pip3 install pip --upgrade
           pip3 install wheel
           pip3 install -r requirements.txt
-          pip3 install -r requirements-dev.txt
+          pip3 install pyinstaller
 
       - name: Build (Ubuntu)
         run: |
@@ -73,7 +73,7 @@ jobs:
           pip3 install pip --upgrade
           pip3 install wheel
           pip3 install -r requirements.txt
-          pip3 install -r requirements-dev.txt
+          pip3 install -r pytest
 
       - name: Run tests
         run: ./venv/bin/pytest
