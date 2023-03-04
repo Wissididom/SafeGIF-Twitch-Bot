@@ -37,7 +37,8 @@ def test_epilepsy_safe():
     images = [
         "test_images/normal.gif",
         "https://webaim.org/articles/seizure/media/illusion.gif",
-        "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_a0f0d42f9001456281d9fbc37a6081b2/default/dark/3.0"
+        "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_a0f0d42f9001456281d9fbc37a6081b2/default/dark/3.0",
+        "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_5169f685980a4c11b71f913bbf9d25d6/default/dark/3.0"
     ]
     for i in range(len(images)):
         assert not safegif.process_gif(images[i])
