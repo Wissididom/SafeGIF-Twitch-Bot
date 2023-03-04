@@ -36,11 +36,10 @@ jobs:
           pyinstaller main.py
           cd dist/main
           mv main SafeLink-Twitch-Bot
-          zip -r ../../SafeGIF-Twitch-Bot.zip .
           cd ../..
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3.1.2
         with:
           name: SafeGIF-Twitch-Bot-${{ matrix.os }}.zip
-          path: SafeGIF-Twitch-Bot.zip
+          path: dist/main/
