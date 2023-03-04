@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    name: Build
+    name: build
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -35,6 +35,7 @@ jobs:
           source venv/bin/activate
           pyinstaller main.py
           cd dist/main
+          chmod +x main
           mv main SafeLink-Twitch-Bot
           cd ../..
 
