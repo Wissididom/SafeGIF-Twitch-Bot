@@ -35,6 +35,7 @@ jobs:
           source venv/bin/activate
           pyinstaller main.py
           cd dist/main
+          mv main SafeLink-Twitch-Bot
           zip -r ../../SafeGIF-Twitch-Bot.zip .
           cd ../..
 
