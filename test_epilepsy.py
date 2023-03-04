@@ -31,8 +31,7 @@ def test_epilepsy_triggering():
         "https://media.tenor.com/PzkhY11Pz3YAAAAC/epilepsi-patates-pattes.gif",
         "https://media.tenor.com/Jt9XZCbBEnkAAAAd/khosalis-snail.gif",
         "https://media.tenor.com/y_v9qSrp4ckAAAAC/moving-art.gif",
-        # "https://media.tenor.com/IUmIvOuUzMAAAAAd/disco-distracted.gif",
-        # "https://i.pinimg.com/originals/19/81/9e/19819ebc0065a496ef95a8069ad0dc76.gif"
+        "https://media.tenor.com/IUmIvOuUzMAAAAAd/disco-distracted.gif"
     ]
     for i in range(len(images)):
         assert safegif.process_gif(images[i])
@@ -44,7 +43,8 @@ def test_epilepsy_safe():
         "https://webaim.org/articles/seizure/media/illusion.gif",
         "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_a0f0d42f9001456281d9fbc37a6081b2/default/dark/3.0",
         "https://media.tenor.com/yzwcdxxlnqYAAAAi/hmmm-thinking.gif",
-        # "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_5169f685980a4c11b71f913bbf9d25d6/default/dark/3.0"
+        "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_5169f685980a4c11b71f913bbf9d25d6/default/dark/3.0",
+        "https://i.pinimg.com/originals/19/81/9e/19819ebc0065a496ef95a8069ad0dc76.gif"
     ]
     for i in range(len(images)):
         assert not safegif.process_gif(images[i])
