@@ -9,7 +9,14 @@ def main():
         ("https://webaim.org/articles/seizure/media/flicker.gif", True),
         ("https://webaim.org/articles/seizure/media/illusion.gif", False),
         ("https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_502bf8fd256b44348d9a5b9c546bee67/default/dark/3.0", True),
-        ("https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_a0f0d42f9001456281d9fbc37a6081b2/default/dark/3.0", False)
+        ("https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_a0f0d42f9001456281d9fbc37a6081b2/default/dark/3.0", False),
+        ("https://media.tenor.com/PzkhY11Pz3YAAAAC/epilepsi-patates-pattes.gif", True),
+        ("https://media.tenor.com/Jt9XZCbBEnkAAAAd/khosalis-snail.gif", True),
+        ("https://media.tenor.com/y_v9qSrp4ckAAAAC/moving-art.gif", True),
+        ("https://media.tenor.com/IUmIvOuUzMAAAAAd/disco-distracted.gif", True),
+        ("https://media.tenor.com/yzwcdxxlnqYAAAAi/hmmm-thinking.gif", False),
+        ("https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_5169f685980a4c11b71f913bbf9d25d6/default/dark/3.0", False),
+        ("https://i.pinimg.com/originals/19/81/9e/19819ebc0065a496ef95a8069ad0dc76.gif", False)
     ]
     for i in range(len(images)):
         expected = images[i][1]
