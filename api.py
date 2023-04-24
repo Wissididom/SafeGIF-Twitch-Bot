@@ -1,5 +1,4 @@
 import cv2
-import imageio.v3 as iio
 import numpy
 import requests
 import urllib.parse
@@ -34,7 +33,6 @@ def get_luminance_diff(luminance_frame, luminance_prev_frame):
     prev_luminances = cv2.cvtColor(prev_bgr, cv2.COLOR_BGR2GRAY)
 
     diff = cv2.subtract(luminances, prev_luminances)
-    iio.imwrite("debug.jpg", diff)
     return diff
 
 
@@ -51,17 +49,18 @@ def get_duration(img):
 
 def process_gif(gif_path):
     print(gif_path)
-    gif = iio.imread(gif_path)
-
-    total_frames = len(gif)
-    if total_frames < 2:
-        return False
 
     if is_url(gif_path):
         response = requests.get(gif_path)
         img = Image.open(BytesIO(response.content))
     else:
         img = Image.open(gif_path)
+        
+    gif = numpy.asarray(img);
+        
+    total_frames = len(gif)
+    if total_frames < 2:
+        return False
 
     loop_duration = get_duration(img)
 
