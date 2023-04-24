@@ -50,6 +50,7 @@ def get_duration(img):
 
 
 def process_gif(gif_path):
+    print(gif_path)
     gif = iio.imread(gif_path)
 
     total_frames = len(gif)
