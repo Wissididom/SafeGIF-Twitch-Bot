@@ -55,8 +55,9 @@ def process_gif(gif_path):
         img = Image.open(BytesIO(response.content))
     else:
         img = Image.open(gif_path)
-        
-    gif = numpy.asarray(img);
+    img = img.convert("RGB")
+    img = img.resize((width, height), resample=Image.NEAREST)
+    gif = iio.imread(numpy.asarray(img));
         
     total_frames = len(gif)
     if total_frames < 2:
