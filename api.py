@@ -1,5 +1,4 @@
 import cv2
-import imageio.v3 as iio
 import numpy
 import requests
 import urllib.parse
@@ -34,51 +33,39 @@ def get_luminance_diff(luminance_frame, luminance_prev_frame):
     prev_luminances = cv2.cvtColor(prev_bgr, cv2.COLOR_BGR2GRAY)
 
     diff = cv2.subtract(luminances, prev_luminances)
-    iio.imwrite("debug.jpg", diff)
     return diff
 
 
-def get_duration(img):
-    img.seek(0)
-    duration = 0
-    while True:
-        try:
-            duration += img.info['duration']
-            img.seek(img.tell() + 1)
-        except EOFError:
-            return duration
-
-
 def process_gif(gif_path):
-    gif = iio.imread(gif_path)
-
-    total_frames = len(gif)
-    if total_frames < 2:
-        return False
-
     if is_url(gif_path):
         response = requests.get(gif_path)
         img = Image.open(BytesIO(response.content))
     else:
         img = Image.open(gif_path)
 
-    loop_duration = get_duration(img)
+    if not img.is_animated:
+        print("Image is not animated.")
+        return False
 
+    duration = 0
     num_flashes = 0
     prev_frame = None
-    for i, frame in enumerate(gif):
-        if i == 0:
-            prev_frame = frame
-            continue
+    for i in range(0, img.n_frames):
+        img.seek(i)
+        duration += img.info['duration']
+        frame = numpy.array(img.convert('RGB'))
 
-        luminance_diff = get_luminance_diff(frame, prev_frame)
-        average_diff = numpy.average(luminance_diff)
+        # If not the first frame calculate diff to previous frame
+        # If too much average diff in luminance the frame transition is considered a flash
+        if i != 0:
+            luminance_diff = get_luminance_diff(frame, prev_frame)
+            average_diff = numpy.average(luminance_diff)
 
-        if average_diff >= FLASH_THRESHOLD:
-            num_flashes += 1
+            if average_diff >= FLASH_THRESHOLD:
+                num_flashes += 1
 
         prev_frame = frame
 
     img.close()
 
-    return num_flashes * (1000 / loop_duration) >= MAX_FLASHES_PER_SECOND
+    return num_flashes * (1000 / duration) >= MAX_FLASHES_PER_SECOND
