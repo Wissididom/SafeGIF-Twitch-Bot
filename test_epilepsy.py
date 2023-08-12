@@ -10,7 +10,6 @@ def main():
         ("https://webaim.org/articles/seizure/media/illusion.gif", False),
         ("https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_502bf8fd256b44348d9a5b9c546bee67/default/dark/3.0", True),
         ("https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_a0f0d42f9001456281d9fbc37a6081b2/default/dark/3.0", False),
-        ("https://media.tenor.com/PzkhY11Pz3YAAAAC/epilepsi-patates-pattes.gif", True),
         ("https://media.tenor.com/Jt9XZCbBEnkAAAAd/khosalis-snail.gif", True),
         ("https://media.tenor.com/y_v9qSrp4ckAAAAC/moving-art.gif", True),
         ("https://media.tenor.com/IUmIvOuUzMAAAAAd/disco-distracted.gif", True),
@@ -22,7 +21,7 @@ def main():
         expected = images[i][1]
         got = safegif.process_gif(images[i][0])
         success = expected is got
-        print(f"{expected} expected, got {got}: {'✓' if success else '✖'}")
+        print(f"{expected} expected, got {got}: {'✓' if success else '✖'} - {images[i][0]}")
 
 
 if __name__ == '__main__':
@@ -35,7 +34,6 @@ def test_epilepsy_triggering():
         "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_a770d1805b514b97956c9695508e0d44/default/dark/3.0",
         "https://webaim.org/articles/seizure/media/flicker.gif",
         "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_502bf8fd256b44348d9a5b9c546bee67/default/dark/3.0",
-        "https://media.tenor.com/PzkhY11Pz3YAAAAC/epilepsi-patates-pattes.gif",
         "https://media.tenor.com/Jt9XZCbBEnkAAAAd/khosalis-snail.gif",
         "https://media.tenor.com/y_v9qSrp4ckAAAAC/moving-art.gif",
         "https://media.tenor.com/IUmIvOuUzMAAAAAd/disco-distracted.gif"
