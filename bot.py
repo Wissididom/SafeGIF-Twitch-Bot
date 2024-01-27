@@ -140,8 +140,8 @@ class Bot:
                     for fmt in fragment['emote']['format']:
                         if fmt == 'static':
                             continue
-                        self.handle_safegif(f'https://static-cdn.jtvnw.net/emoticons/v2/{fragment['emote']['id']}/{fmt}/light/3.0', chat_message_event['broadcaster_user_id'], tokens['user_id'], chat_message_event['chatter_user_id'], chat_message_event['message_id'])
-                        self.handle_safegif(f'https://static-cdn.jtvnw.net/emoticons/v2/{fragment['emote']['id']}/{fmt}/dark/3.0', chat_message_event['broadcaster_user_id'], tokens['user_id'], chat_message_event['chatter_user_id'], chat_message_event['message_id'])
+                        self.handle_safegif(f"https://static-cdn.jtvnw.net/emoticons/v2/{fragment['emote']['id']}/{fmt}/light/3.0", chat_message_event['broadcaster_user_id'], tokens['user_id'], chat_message_event['chatter_user_id'], chat_message_event['message_id'])
+                        self.handle_safegif(f"https://static-cdn.jtvnw.net/emoticons/v2/{fragment['emote']['id']}/{fmt}/dark/3.0", chat_message_event['broadcaster_user_id'], tokens['user_id'], chat_message_event['chatter_user_id'], chat_message_event['message_id'])
         else:
             print(f"EventSub Data: {json.dumps(data)}")
 
@@ -167,7 +167,7 @@ class Bot:
 
     def get(self, url: str, firstTry: bool = True):
         global tokens
-        response = requests.get(url, headers={'Client-ID': self.client_id, 'Authorization': f'Bearer {tokens['access_token']}'})
+        response = requests.get(url, headers={'Client-ID': self.client_id, 'Authorization': f"Bearer {tokens['access_token']}"})
         if response.status_code == 401 and firstTry:
             self.refresh_token()
             return self.get(url, False)
@@ -177,9 +177,9 @@ class Bot:
         global tokens
         response = None
         if json is None:
-            response = requests.post(url, headers={'Client-ID': self.client_id, 'Authorization': f'Bearer {tokens['access_token']}'})
+            response = requests.post(url, headers={'Client-ID': self.client_id, 'Authorization': f"Bearer {tokens['access_token']}"})
         else:
-            response = requests.post(url, headers={'Client-ID': self.client_id, 'Authorization': f'Bearer {tokens['access_token']}'}, json=json)
+            response = requests.post(url, headers={'Client-ID': self.client_id, 'Authorization': f"Bearer {tokens['access_token']}"}, json=json)
         if response.status_code == 401 and firstTry:
             self.refresh_token()
             return self.post(url, json, False)
@@ -187,7 +187,7 @@ class Bot:
 
     def delete(self, url: str, firstTry: bool = True):
         global tokens
-        response = requests.delete(url, headers={'Client-ID': self.client_id, 'Authorization': f'Bearer {tokens['access_token']}'})
+        response = requests.delete(url, headers={'Client-ID': self.client_id, 'Authorization': f"Bearer {tokens['access_token']}"})
         if response.status_code == 401 and firstTry:
             self.refresh_token()
             return self.delete(url, False)
