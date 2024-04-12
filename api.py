@@ -54,7 +54,7 @@ def process_gif(gif_path):
     for i in range(0, img.n_frames):
         img.seek(i)
         imgDuration = img.info['duration'];
-        if imgDuration == 0 or imgDuration == 10:
+        if imgDuration <= 10:
             imgDuration = 100
         duration += imgDuration
         frame = numpy.array(img.convert('RGB'))
