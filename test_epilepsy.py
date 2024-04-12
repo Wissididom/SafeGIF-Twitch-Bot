@@ -15,7 +15,8 @@ def main():
         ("https://media.tenor.com/IUmIvOuUzMAAAAAd/disco-distracted.gif", True),
         ("https://media.tenor.com/yzwcdxxlnqYAAAAi/hmmm-thinking.gif", False),
         # ("https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_5169f685980a4c11b71f913bbf9d25d6/default/dark/3.0", False),
-        ("https://i.pinimg.com/originals/19/81/9e/19819ebc0065a496ef95a8069ad0dc76.gif", False)
+        ("https://i.pinimg.com/originals/19/81/9e/19819ebc0065a496ef95a8069ad0dc76.gif", False),
+        ("https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_d30b413bc2c04591b2eab8c20bdc7627/default/dark/3.0", True)
     ]
     for i in range(len(images)):
         expected = images[i][1]
@@ -36,7 +37,8 @@ def test_epilepsy_triggering():
         "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_502bf8fd256b44348d9a5b9c546bee67/default/dark/3.0",
         "https://media.tenor.com/Jt9XZCbBEnkAAAAd/khosalis-snail.gif",
         "https://media.tenor.com/y_v9qSrp4ckAAAAC/moving-art.gif",
-        "https://media.tenor.com/IUmIvOuUzMAAAAAd/disco-distracted.gif"
+        "https://media.tenor.com/IUmIvOuUzMAAAAAd/disco-distracted.gif",
+        "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_d30b413bc2c04591b2eab8c20bdc7627/default/dark/3.0"
     ]
     for i in range(len(images)):
         assert safegif.process_gif(images[i])
