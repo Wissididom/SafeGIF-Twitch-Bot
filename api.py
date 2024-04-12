@@ -50,9 +50,13 @@ def process_gif(gif_path):
     duration = 0
     num_flashes = 0
     prev_frame = None
+    print(f"Animated: {img.is_animated}; N-Frames: {img.n_frames}; Duration: {img.info['duration']} (URL: {gif_path})")
     for i in range(0, img.n_frames):
         img.seek(i)
-        duration += img.info['duration']
+        imgDuration = img.info['duration'];
+        if imgDuration == 0 or imgDuration == 10:
+            imgDuration = 100
+        duration += imgDuration
         frame = numpy.array(img.convert('RGB'))
 
         # If not the first frame calculate diff to previous frame
