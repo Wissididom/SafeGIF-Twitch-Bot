@@ -4,4 +4,4 @@ python-dotenv==1.0.1
 requests==2.31.0
 Pillow==10.3.0
 rel==0.4.9.11
-websocket-client==1.7.0
+websocket-client==1.8.0
