@@ -18,7 +18,9 @@ def main():
         ("https://i.pinimg.com/originals/19/81/9e/19819ebc0065a496ef95a8069ad0dc76.gif", False),
         ("https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_d30b413bc2c04591b2eab8c20bdc7627/default/dark/3.0", True),
         ("https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_63cdcc8a9e2f4f71a6223ea6b98df920/default/dark/3.0", True),
-        ("https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_95626eb72c644ad1a2d2f99ce3c4f606/default/dark/3.0", True)
+        ("https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_95626eb72c644ad1a2d2f99ce3c4f606/default/dark/3.0", True),
+        ("https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_c1bc896c0fa74c01b2dad226dcfe41d5/default/dark/3.0", True),
+        ("https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_7790e6239f7b4630aba88e63dc19da60/default/dark/3.0", True)
     ]
     for i in range(len(images)):
         expected = images[i][1]
@@ -42,7 +44,9 @@ def test_epilepsy_triggering():
         "https://media.tenor.com/IUmIvOuUzMAAAAAd/disco-distracted.gif",
         "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_d30b413bc2c04591b2eab8c20bdc7627/default/dark/3.0",
         "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_63cdcc8a9e2f4f71a6223ea6b98df920/default/dark/3.0",
-        "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_95626eb72c644ad1a2d2f99ce3c4f606/default/dark/3.0"
+        "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_95626eb72c644ad1a2d2f99ce3c4f606/default/dark/3.0",
+        "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_c1bc896c0fa74c01b2dad226dcfe41d5/default/dark/3.0",
+        "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_7790e6239f7b4630aba88e63dc19da60/default/dark/3.0"
     ]
     for i in range(len(images)):
         assert safegif.process_gif(images[i])
