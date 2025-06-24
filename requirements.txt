@@ -1,6 +1,6 @@
 numpy==2.2.4
 opencv-python==4.11.0.86
-python-dotenv==1.1.0
+python-dotenv==1.1.1
 requests==2.32.4
 Pillow==11.2.1
 rel==0.4.9.20
