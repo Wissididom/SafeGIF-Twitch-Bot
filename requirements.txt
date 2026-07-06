@@ -3,5 +3,5 @@ opencv-python==5.0.0.93
 python-dotenv==1.2.2
 requests==2.34.2
 Pillow==12.3.0
-rel==0.4.9.26
+rel==0.4.9.27
 websocket-client==1.9.0
